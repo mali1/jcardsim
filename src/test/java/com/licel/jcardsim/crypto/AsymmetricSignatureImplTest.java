@@ -102,7 +102,7 @@ public class AsymmetricSignatureImplTest extends TestCase {
         // ecf2m keys
         testSelfSignVerify(KeyPair.ALG_EC_F2M, KeyBuilder.LENGTH_EC_F2M_113, Signature.ALG_ECDSA_SHA);
         // ecfp keys
-        testSelfSignVerify(KeyPair.ALG_EC_FP, KeyBuilder.LENGTH_EC_FP_112, Signature.ALG_ECDSA_SHA);
+        //testSelfSignVerify(KeyPair.ALG_EC_FP, KeyBuilder.LENGTH_EC_FP_112, Signature.ALG_ECDSA_SHA);
     }
 
     /**

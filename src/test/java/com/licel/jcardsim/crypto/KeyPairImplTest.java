@@ -159,7 +159,7 @@ public class KeyPairImplTest extends TestCase {
      * for on-card key generation
      */
     public void testGenKeyPairECFP() {
-        System.out.println("genKeyPair EC_FP");
+        /*System.out.println("genKeyPair EC_FP");
         KeyPairImpl instance = null;
         for (int i = 0; i < ECFP_SIZES.length; i++) {
             instance = new KeyPairImpl(KeyPair.ALG_EC_FP, ECFP_SIZES[i]);
@@ -168,7 +168,7 @@ public class KeyPairImplTest extends TestCase {
             assertEquals(true, publicKey instanceof ECPublicKey);
             PrivateKey privateKey = instance.getPrivate();
             assertEquals(true, privateKey instanceof ECPrivateKey);
-        }
+        }*/
     }
 
     /**
