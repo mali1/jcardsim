@@ -23,6 +23,7 @@ import javacard.security.ECKey;
 import javacard.security.KeyBuilder;
 import javacard.security.KeyPair;
 import org.bouncycastle.asn1.sec.SECNamedCurves;
+import org.bouncycastle.asn1.teletrust.TeleTrusTNamedCurves;
 import org.bouncycastle.asn1.x9.X9ECParameters;
 import org.bouncycastle.crypto.KeyGenerationParameters;
 import org.bouncycastle.crypto.params.ECDomainParameters;
@@ -245,6 +246,7 @@ public abstract class ECKeyImpl extends KeyImpl implements ECKey {
      */
     static ECDomainParameters getDefaultsDomainParameters(byte keyType, short keySize) {
         String curveName = "";
+        X9ECParameters x9params = null;
         switch (keySize) {
             case 113:
             case 131:
@@ -254,6 +256,7 @@ public abstract class ECKeyImpl extends KeyImpl implements ECKey {
                     CryptoException.throwIt(CryptoException.ILLEGAL_VALUE);
                 }
                 curveName = "sect" + keySize + "r1";
+                x9params = SECNamedCurves.getByName(curveName);
                 break;
             case 112:
             case 128:
@@ -262,13 +265,13 @@ public abstract class ECKeyImpl extends KeyImpl implements ECKey {
                 if ((keyType != KeyBuilder.TYPE_EC_FP_PRIVATE) & (keyType != KeyBuilder.TYPE_EC_FP_PUBLIC)) {
                     CryptoException.throwIt(CryptoException.ILLEGAL_VALUE);
                 }
-                curveName = "secp" + keySize + "r1";
+                curveName = "brainpoolP" + keySize + "r1";
+                x9params = TeleTrusTNamedCurves.getByName(curveName);
                 break;
             default:
                 CryptoException.throwIt(CryptoException.ILLEGAL_VALUE);
                 break;
         }
-        X9ECParameters x9params = SECNamedCurves.getByName(curveName);
         return new ECDomainParameters(
                 x9params.getCurve(),
                 x9params.getG(), // G
