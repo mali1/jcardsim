@@ -249,7 +249,7 @@ public final class KeyPairImpl {
      */
     private void initEngine() {
         if (publicKey != null || privateKey != null) {
-            keyGenerationParameters = ((KeyImpl) (privateKey == null ? publicKey : privateKey)).getKeyGenerationParameters(rnd);
+            keyGenerationParameters = ((KeyImpl) (publicKey == null ? privateKey : publicKey)).getKeyGenerationParameters(rnd);
         }
         switch (algorithm) {
             case KeyPair.ALG_RSA:
