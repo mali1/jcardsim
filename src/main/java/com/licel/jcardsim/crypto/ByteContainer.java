@@ -93,7 +93,7 @@ public final class ByteContainer {
      * @param length
      */
     public void setBytes(byte[] buff, short offset, short length) {
-        if (data == null) {
+        if (data == null || data.length != length) {
             switch (memoryType) {
                 case JCSystem.MEMORY_TYPE_TRANSIENT_DESELECT:
                     data = JCSystem.makeTransientByteArray(length, JCSystem.CLEAR_ON_DESELECT);
