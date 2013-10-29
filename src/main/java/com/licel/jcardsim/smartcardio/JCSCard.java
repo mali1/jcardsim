@@ -45,6 +45,8 @@ public class JCSCard extends Card {
     private Simulator simulator;
     //
     private JCSCardChannel basicChannel;
+    //is the applet already selected
+    private boolean appletIsSelected = false;
 
     public JCSCard() {
         simulator = new Simulator();
@@ -105,7 +107,8 @@ public class JCSCard extends Card {
         byte[] theSW = new byte[2];
         // handles select applet command
         if (((byte) capdu.getCLA()) == ISO7816.CLA_ISO7816
-                && ((byte) capdu.getINS()) == ISO7816.INS_SELECT) {
+                && ((byte) capdu.getINS()) == ISO7816.INS_SELECT
+                && !appletIsSelected) {
             byte[] aidBytes = capdu.getData();
             if (aidBytes.length < 5 || aidBytes.length > 16) {
                 Util.setShort(theSW, (short) 0, ISO7816.SW_DATA_INVALID);
@@ -119,10 +122,12 @@ public class JCSCard extends Card {
             }
             if (!appletSelectionResult) {
                 Util.setShort(theSW, (short) 0, ISO7816.SW_APPLET_SELECT_FAILED);
+                return new ResponseAPDU(theSW);
             } else {
-                Util.setShort(theSW, (short) 0, ISO7816.SW_NO_ERROR);
+                appletIsSelected = true;
+                return new ResponseAPDU(simulator.transmitCommand(capdu.getBytes()));
             }
-            return new ResponseAPDU(theSW);
+            
         } else if (capdu.getCLA() == 0x80 && capdu.getINS() == 0xb8) {
             // handle CREATE APPLTE command
             // command format:
